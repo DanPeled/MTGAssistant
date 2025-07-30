@@ -653,7 +653,7 @@ export default function MTGAssistant() {
     }
 
     // Check if enough specific colored mana is available
-    const availableColors: ManaCount = { ...gameState.availableMana };
+    const availableColors: any = { ...gameState.availableMana };
     for (const color in cost.specific) {
       if (availableColors[color] < cost.specific[color]) {
         return false;

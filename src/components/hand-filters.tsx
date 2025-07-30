@@ -26,7 +26,15 @@ export function HandFilters({ cards, onFilteredCards }: HandFiltersProps) {
   const [typeFilter, setTypeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("name");
 
-  const applyFilters = () => {
+  const clearFilters = () => {
+    setSearchTerm("");
+    setTypeFilter("all");
+    setSortBy("name");
+    onFilteredCards(cards);
+  };
+
+  // Apply filters whenever any filter changes
+  React.useEffect(() => {
     let filtered = [...cards];
 
     // Apply search filter
@@ -92,21 +100,8 @@ export function HandFilters({ cards, onFilteredCards }: HandFiltersProps) {
         return getTypeOrder(a) - getTypeOrder(b);
       });
     }
-
     onFilteredCards(filtered);
-  };
-
-  const clearFilters = () => {
-    setSearchTerm("");
-    setTypeFilter("all");
-    setSortBy("name");
-    onFilteredCards(cards);
-  };
-
-  // Apply filters whenever any filter changes
-  React.useEffect(() => {
-    applyFilters();
-  }, [searchTerm, typeFilter, sortBy, cards]);
+  }, [searchTerm, typeFilter, sortBy, cards, onFilteredCards]);
 
   const hasActiveFilters =
     searchTerm || typeFilter !== "all" || sortBy !== "name";
